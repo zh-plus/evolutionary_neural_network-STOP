@@ -13,3 +13,12 @@ Using evolutionary algorithm to search for a great neural network architecture.
 
 
 In the future, we will also adapt it into more data set, namely CIFAR-10, CIFAR-100 and ImageNet.
+
+
+
+##### References
+
+- [Large-Scale Evolution of Image Classifiers](https://arxiv.org/pdf/1703.01041.pdf)
+- [Aging Evolution for Image Classifier Architecture Search](https://arxiv.org/pdf/1802.01548.pdf)
+- [Learning Transferable Architectures for Scalable Image Recognition](https://arxiv.org/pdf/1707.07012.pdf)
+
