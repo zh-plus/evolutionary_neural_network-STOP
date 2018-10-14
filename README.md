@@ -2,8 +2,6 @@
 
 
 
-Using evolutionary algorithm to search for a great neural network architecture.
-
 ##### Current Situation
 
 ​	Basically, we'll use MNIST as our test bench now.
