@@ -11,9 +11,14 @@ class Model(nn.Module):
     def __init__(self, DNA):
         super(Model, self).__init__()
         self.DNA = DNA
+        self.accuracy = 0
         # construct this nn model according to the DNA
 
     def forward(self, x):
         pass
         # return output
 
+
+def random_model():
+    model = Model()
+    pass

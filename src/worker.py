@@ -8,6 +8,7 @@ from torch.utils.data import DataLoader
 from torch.optim import Optimizer
 
 import random
+from collections import deque
 
 from dna import DNA
 from population import Population
@@ -99,6 +100,11 @@ def fitness_fn(dna):
     return validate(model, device, test_loader)
 
 
+def train_and_eval(model):
+    acc = 0
+    return acc
+
+
 class Worker():
     """Used to select, mutate, evolve populations"""
 
@@ -133,24 +139,37 @@ class Worker():
         """
         pass
 
+    def random_model(self):
+        dna = DNA.ran
+        model = Model()
+        return model
+        pass
+
     def evolve(self):
-        while True:
-            valid_individuals = self.select()
-            individual_pair = random.sample(valid_individuals, 2)
+        P = 10
+        C = 50
+        S = 5
 
-            # sort the individuals from large to small
-            individual_pair.sort(key=lambda i: i.fitness, reverse=True)
-            better_individual = individual_pair[0]
-            worse_individual = individual_pair[1]
+        population = deque()
+        history = []
+        while self._population_size() < P:
+            model = self.random_model()  # type: Model
+            model.accuracy = train_and_eval(model)
+            population.append(model)
+            history.append(model)
 
-            if self._population_size() > self._population_size_setpoint:
-                self.population.kill(worse_individual)
+        while len(history) < C:
+            sample = random.sample(population, S)
+            parent = max(sample, key=lambda x: x.accuracy)
+            child = Model(self.mutation(parent.dna))
+            child.accuracy = train_and_eval(child)
 
-            new_individual = self.mutation(better_individual)
-            fitness = fitness_fn(new_individual)
-            new_individual.set_fitness(fitness)
+            population.append(child)
+            history.append(child)
 
-            self.population.add(new_individual)
+            population.popleft()
+
+        return max(history, key=lambda x: x.accuracy)
 
 
 if __name__ == '__main__':

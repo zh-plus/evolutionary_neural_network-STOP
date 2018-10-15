@@ -4,9 +4,9 @@
 
 ##### Current Situation
 
-​	Basically, we'll use MNIST as our test bench now.
+​Basically, we'll use MNIST as our test bench now.
 
-​	The preliminary goal we want to achieve is evolving an neural network that can rival the [model](https://github.com/zh-plus/NN_example/blob/master/CNN/mnist_highACC.py) in my NN_example repository, i.e. approximately 99.6 test accuracy in MNIST data set.
+​The preliminary goal we want to achieve is evolving an neural network that can rival the [model](https://github.com/zh-plus/NN_example/blob/master/CNN/mnist_highACC.py) in my NN_example repository, i.e. approximately 99.6 test accuracy in MNIST data set.
 
 
 

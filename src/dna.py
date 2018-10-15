@@ -18,3 +18,8 @@ class DNA():
 
     def set_fitness(self, fitness):
         self.fitness = fitness
+
+
+def random_dna() -> DNA:
+    # dna =
+    pass
