@@ -10,6 +10,7 @@ from torch.optim import Optimizer
 import random
 from collections import deque
 
+from dna import random_dna
 from dna import DNA
 from population import Population
 from model import Model
@@ -64,10 +65,7 @@ def validate(model, device, test_loader):
     return acc
 
 
-def fitness_fn(dna):
-    model = Model(dna)
-
-    EPOCH = 30
+def train_and_eval(model):
     EPOCH = 30
     BATCH_SIZE = 128
     learning_rate = 0.01002
@@ -100,9 +98,10 @@ def fitness_fn(dna):
     return validate(model, device, test_loader)
 
 
-def train_and_eval(model):
-    acc = 0
-    return acc
+def random_model():
+    dna = random_dna()
+    model = Model(dna)
+    return model
 
 
 class Worker():
@@ -139,27 +138,21 @@ class Worker():
         """
         pass
 
-    def random_model(self):
-        dna = DNA.ran
-        model = Model()
-        return model
-        pass
-
     def evolve(self):
-        P = 10
-        C = 50
-        S = 5
+        total_population_num = 10
+        evolving_iteration_num = 50
+        random_sample_num = 5
 
         population = deque()
         history = []
-        while self._population_size() < P:
-            model = self.random_model()  # type: Model
+        while self._population_size() < total_population_num:
+            model = random_model()  # type: Model
             model.accuracy = train_and_eval(model)
             population.append(model)
             history.append(model)
 
-        while len(history) < C:
-            sample = random.sample(population, S)
+        while len(history) < evolving_iteration_num:
+            sample = random.sample(population, random_sample_num)
             parent = max(sample, key=lambda x: x.accuracy)
             child = Model(self.mutation(parent.dna))
             child.accuracy = train_and_eval(child)

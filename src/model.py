@@ -17,8 +17,3 @@ class Model(nn.Module):
     def forward(self, x):
         pass
         # return output
-
-
-def random_model():
-    model = Model()
-    pass
