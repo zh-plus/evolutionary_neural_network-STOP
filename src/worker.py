@@ -139,20 +139,20 @@ class Worker():
         pass
 
     def evolve(self):
-        total_population_num = 10
-        evolving_iteration_num = 50
-        random_sample_num = 5
+        total_population_num = self._population_size_setpoint
+        cycles = 50
+        sample_size = 5
 
         population = deque()
         history = []
-        while self._population_size() < total_population_num:
+        while len(population) < total_population_num:
             model = random_model()  # type: Model
             model.accuracy = train_and_eval(model)
             population.append(model)
             history.append(model)
 
-        while len(history) < evolving_iteration_num:
-            sample = random.sample(population, random_sample_num)
+        while len(history) < cycles:
+            sample = random.sample(population, sample_size)
             parent = max(sample, key=lambda x: x.accuracy)
             child = Model(self.mutation(parent.dna))
             child.accuracy = train_and_eval(child)
