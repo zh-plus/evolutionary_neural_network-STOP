@@ -10,8 +10,8 @@ from torch.optim import Optimizer
 import random
 from collections import deque
 
-from dna import random_dna
-from dna import DNA
+from architecture import random_architecture
+from architecture import Architecture
 from population import Population
 from model import Model
 
@@ -99,7 +99,7 @@ def train_and_eval(model):
 
 
 def random_model():
-    dna = random_dna()
+    dna = random_architecture()
     model = Model(dna)
     return model
 
@@ -159,7 +159,8 @@ class Worker():
 
             population.append(child)
             history.append(child)
-
+            # reserve best //TODO
+            # 轮盘
             population.popleft()
 
         return max(history, key=lambda x: x.accuracy)
