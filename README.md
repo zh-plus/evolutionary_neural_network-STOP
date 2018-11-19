@@ -17,6 +17,6 @@ In the future, we will also adapt it into more data set, namely CIFAR-10, CIFAR-
 ##### References
 
 - [Large-Scale Evolution of Image Classifiers](https://arxiv.org/pdf/1703.01041.pdf)
-- [Aging Evolution for Image Classifier Architecture Search](https://arxiv.org/pdf/1802.01548.pdf)
+- [Regularized Evolution for Image Classifier Architecture Search](https://arxiv.org/pdf/1802.01548.pdf)
 - [Learning Transferable Architectures for Scalable Image Recognition](https://arxiv.org/pdf/1707.07012.pdf)
 
