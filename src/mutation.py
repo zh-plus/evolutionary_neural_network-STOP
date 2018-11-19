@@ -1,60 +1,47 @@
 import copy
 import random
 from architecture import *
-from worker import *
-
-OPTYPE = ['identical', 'sep_3x3', 'sep_5x5', 'sep_7x7', 'avg_3x3', 'max_3x3', 'dil_3x3', 'sep_1x7_7x1']
 
 
-class OpMutation(object):
+class Mutation(object):
+    OPTYPE = ['identical', 'sep_3x3', 'sep_5x5', 'sep_7x7', 'avg_3x3', 'max_3x3', 'dil_3x3', 'sep_1x7_7x1']
 
-    def mutate(self, architecture):
-        arch = architecture.arch
-        mutaed_cell = arch[random.randint(0, 1)]
-        mutaed_nodes = mutaed_cell.nodes[random.randint(2, 7)]
-        mutaed_edge = self.getMutationEdge(mutaed_nodes)
-        print('mutate op:', mutaed_edge.op if mutaed_edge else 'None')
-        mutaed_edge.op = self.getMutationOp(mutaed_edge)
-        print('mutated op', mutaed_edge.op)
-
-    def getMutationEdge(self, mutaed_pairwise):
-        s = random.randint(0, 1)
-        edge = None
-        if s == 0:
-            edge = mutaed_pairwise.left_edge
+    @staticmethod
+    def opMutate(architecture):
+        choose_cell = random.randint(0, 1)
+        mutaed_cell = architecture.arch[choose_cell]
+        choose_node = random.randint(2, 6)
+        mutaed_nodes = mutaed_cell[choose_node]
+        op = ''
+        p = random.random() * 100
+        if p <= 5:
+            op = Mutation.OPTYPE[0]
         else:
-            edge = mutaed_pairwise.right_edge
-        return edge
+            op = Mutation.OPTYPE[random.randint(1, 7)]
 
-    def getMutationOp(self, mutaed_edge):
-        a = random.choice(OPTYPE)
-        while mutaed_edge.op and a == mutaed_edge.op:
-            a = random.choice(OPTYPE)
-        return a
+        mutaed_nodes[random.randint(0, 1)] = op
 
-
-class HidenStateMutation(object):
-
-    def mutate(self, architecture):
+    @staticmethod
+    def hidenStateMutate(architecture):
         arch = architecture.arch
-        mutaed_cell = arch[random.randint(0, 1)]
-        mutaed_nodes = mutaed_cell.nodes[random.randint(2, 7)]
-        mutaed_edge = self.getMutationEdge(mutaed_nodes)
-        get_orgin_node = mutaed_edge.enter_node
-        mutaed_edge.enter_node = self.getMutationNode(mutaed_edge, mutaed_cell)
-
-    def getMutationEdge(self, mutaed_pairwise):
-        s = random.randint(0, 1)
-        edge = None
-        if s == 0:
-            edge = mutaed_pairwise.left_edge
-        else:
-            edge = mutaed_pairwise.right_edge
-        return edge
-
-    def getMutationNode(self, mutaed_edge, cell):
-        a = random.randint(0, 6)
-        while cell.nodes[a] == mutaed_edge.enter_node:
-            a = random.randint(0, 6)
-        node = cell.nodes[a]
-        return node
+        choose_cell = random.randint(0, 1)
+        mutaed_cell = arch[choose_cell]
+        choose_node = random.randint(2, 6)
+        mutaed_nodes = mutaed_cell[choose_node]
+        select_Hiden_num = random.randint(2, 3)
+        get_orgin_num = mutaed_nodes[select_Hiden_num]
+        change_num = random.randint(0, choose_node - 1)
+        while get_orgin_num == change_num:
+            change_num = random.randint(0, choose_node - 1)
+        mutaed_nodes[select_Hiden_num] = change_num
+        # change node7
+        if change_num in mutaed_cell[-1]:
+            mutaed_cell[-1].remove(change_num)
+        # whether orgin_num in node
+        is_point_to_node7 = True
+        for i in mutaed_cell:
+            if get_orgin_num in i:
+                is_point_to_node7 = False
+                break
+        if is_point_to_node7:
+            mutaed_cell[-1].append(get_orgin_num)
