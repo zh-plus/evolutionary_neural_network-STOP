@@ -27,10 +27,14 @@ class Arch:
 
         return arch_proto
 
-    def random_arch(self):
+    @staticmethod
+    def random_arch():
+        new_arch = Arch()
 
         for i in range(0, 2):  # two different type cells
-            self.arch.append(Cell.random_cell())
+            new_arch.arch.append(Cell.random_cell())
+
+        return new_arch
 
 
 class Cell:

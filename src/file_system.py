@@ -28,7 +28,7 @@ class Folder:
         return os.path.join(self.path, file)
 
     def create_file(self, arch_proto):
-        file_name = 'nn-'+str(arch_proto.id)+'-alive'
+        file_name = 'nn-' + str(arch_proto.id) + '-alive'
         self.history.append(file_name)
         file_path = os.path.join(self.path, file_name)
         write_file(arch_proto, file_path)
@@ -38,8 +38,8 @@ class Folder:
 
     def dead(self, arch):
         # change file name -alive to -dead
-        src = 'nn-'+str(arch.id)+'-alive'
-        dst = 'nn-'+str(arch.id)+'-dead'
+        src = 'nn-' + str(arch.id) + '-alive'
+        dst = 'nn-' + str(arch.id) + '-dead'
         src_path = os.path.join(self.path, src)
         dst_path = os.path.join(self.dead_path(), dst)
         os.remove(src_path)
@@ -47,7 +47,7 @@ class Folder:
         print(self.file_name(arch), "is dead")
 
     def add(self, arch):
-        src = 'nn-'+str(arch.id)+'-alive'
+        src = 'nn-' + str(arch.id) + '-alive'
         self.history.append(src)
         if arch.id > self.max_id:
             self.max_id = arch.id
@@ -57,7 +57,7 @@ class Folder:
 
     @staticmethod
     def file_name(arch):
-        return 'nn-'+str(arch.id)+'-alive'
+        return 'nn-' + str(arch.id) + '-alive'
 
     @staticmethod
     def alive(file):
@@ -112,7 +112,3 @@ def test_dir(path):
         os.mkdir(dead_path)
 
     return path
-
-
-
-

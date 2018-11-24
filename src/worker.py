@@ -10,8 +10,7 @@ from torch.optim import Optimizer
 import random
 from collections import deque
 
-from architecture import random_architecture
-from architecture import Architecture
+from architecture import Arch
 from population import Population
 from model import Model
 
@@ -94,12 +93,13 @@ def train_and_eval(model):
 
     for epoch in range(1, EPOCH + 1):
         train(model, device, train_loader, optimizer, epoch)
+        acc = validate(model, device, test_loader)
 
     return validate(model, device, test_loader)
 
 
 def random_model():
-    dna = random_architecture()
+    dna = Arch.random_arch()
     model = Model(dna)
     return model
 
@@ -167,6 +167,12 @@ class Worker():
 
 
 if __name__ == '__main__':
-    pass
-    # worker = Worker()
-    # worker.evolve()
+    a = Arch.random_arch()
+
+    use_cuda = torch.cuda.is_available()
+    device = torch.device("cuda" if use_cuda else "cpu")
+    model = Model(a.arch, device, 1)
+    train_and_eval(model)
+
+    # out = cell(data1, data2)
+    # print(out)

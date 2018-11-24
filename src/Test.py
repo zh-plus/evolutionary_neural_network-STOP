@@ -1,4 +1,3 @@
-from architecture import *
 from mutation import *
 
 test_arch = Arch()
