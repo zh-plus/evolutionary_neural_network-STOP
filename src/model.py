@@ -74,8 +74,8 @@ class CellModel(nn.Module):
                                  stride=1, padding=1, dilation=1, groups=channels),  # padding = (k_s - 1) / 2 =
             'sep_5x5': nn.Conv2d(channels, channels, 5, 1, 2, 1, channels),
             'sep_7x7': nn.Conv2d(channels, channels, 7, 1, 3, 1, channels),
-            'avg_3x3': nn.AvgPool2d(),
-            'max_3x3': nn.MaxPool2d(),
+            'avg_3x3': nn.AvgPool2d(2),
+            'max_3x3': nn.MaxPool2d(2),
             'dil_3x3': nn.Conv2d(channels, channels, 3, 1, 1, dilation=1, groups=1),
             'sep_1x7_7x1': nn.Sequential(
                 nn.Conv2d(channels, channels, kernel_size=(1, 7), padding=(0, 3), groups=channels),
@@ -127,5 +127,7 @@ if __name__ == '__main__':
     data2 = torch.rand(1, 1, 28, 28)
     data2 = nn.Conv2d(1, 16, 1)(data2)
 
-    out = cell(data1, data2)
-    print(out)
+    cell.forward(data1, data2)
+
+    # out = cell(data1, data2)
+    # print(out)

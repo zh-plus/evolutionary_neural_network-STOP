@@ -8,7 +8,8 @@ for i, n in enumerate(test_arch.arch):
     print(n)
     print('\n----\n')
 print('------------------------')
-Mutation.hidenStateMutate(test_arch)
+mutation = random.choice([Mutation.hidenStateMutate, Mutation.opMutate])
+mutation(test_arch)
 print('after mutation')
 print('--------------------------\n')
 for i, n in enumerate(test_arch.arch):
