@@ -12,7 +12,6 @@ class Population:
         self.folder = folder
         self.individuals = []
 
-        # load file
         for file in self.folder.history:
             if folder.alive(file):
                 file_path = self.folder.file_path(file)
@@ -20,7 +19,6 @@ class Population:
                 self.individuals.append(Arch(arch_proto))
                 print("load file ", file, " ...")
 
-        # create file
         for i in range(0, P-self.__len__()):
             arch = Arch()
             arch.id = self.folder.max_id + 1

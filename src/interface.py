@@ -22,34 +22,29 @@ if last_path != '':
         response = input("Do you want to use that?(y/n): ").lower()
     if response == 'y':
         last_path = test_dir(last_path)
-elif response == 'n' or last_path == '':
+if response == 'n' or last_path == '' or response is None:
     last_path = input("Please choose a new path: ")
     last_path = test_dir(last_path)
 
 folder = Folder(last_path)
 p = Population(folder)
 
-# simulate train
 for i in range(0, p.__len__()):
     if p.individuals[i].accuracy == 0:
         a = random.randint(0, 20)
         print("random", folder.file_name(p.individuals[i]), "to", a)
         p.individuals[i].accuracy = a
 
-# simulate evolution
 while folder.history.__len__() < C:
     print("This is", folder.history.__len__()-p.__len__()+1, " cycle:")
     sample = random.sample(range(p.__len__()), k=S)
 
-    # simulate choose
     parent = Arch()
     for s in sample:
         if p.individuals[s].accuracy > parent.accuracy:
             parent = copy(p.individuals[s])
-    # simulate mutation
     copy_parent = copy(parent)
     child = mutation(copy_parent)
     p.add(child)
-    # simulate dead
     p.dead()
 

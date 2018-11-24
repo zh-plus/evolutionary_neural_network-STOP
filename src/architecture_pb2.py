@@ -2,128 +2,133 @@
 # source: architecture.proto
 
 import sys
-
-_b = sys.version_info[0] < 3 and (lambda x: x) or (lambda x: x.encode('latin1'))
+_b=sys.version_info[0]<3 and (lambda x:x) or (lambda x:x.encode('latin1'))
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
 
+
+
+
 DESCRIPTOR = _descriptor.FileDescriptor(
-    name='architecture.proto',
-    package='',
-    syntax='proto3',
-    serialized_options=None,
-    serialized_pb=_b(
-        '\n\x12\x61rchitecture.proto\"D\n\tArchProto\x12\x10\n\x08\x61\x63\x63uracy\x18\x01 \x01(\x02\x12\n\n\x02id\x18\x02 \x01(\x05\x12\x19\n\x05\x63\x65lls\x18\x03 \x03(\x0b\x32\n.CellProto\"&\n\tCellProto\x12\x19\n\x05nodes\x18\x01 \x03(\x0b\x32\n.NodeProto\"\x1c\n\tNodeProto\x12\x0f\n\x07\x63ontent\x18\x01 \x03(\tb\x06proto3')
+  name='architecture.proto',
+  package='',
+  syntax='proto3',
+  serialized_options=None,
+  serialized_pb=_b('\n\x12\x61rchitecture.proto\"D\n\tArchProto\x12\x10\n\x08\x61\x63\x63uracy\x18\x01 \x01(\x02\x12\n\n\x02id\x18\x02 \x01(\x05\x12\x19\n\x05\x63\x65lls\x18\x03 \x03(\x0b\x32\n.CellProto\"&\n\tCellProto\x12\x19\n\x05nodes\x18\x01 \x03(\x0b\x32\n.NodeProto\"\x1c\n\tNodeProto\x12\x0f\n\x07\x63ontent\x18\x01 \x03(\tb\x06proto3')
 )
+
+
+
 
 _ARCHPROTO = _descriptor.Descriptor(
-    name='ArchProto',
-    full_name='ArchProto',
-    filename=None,
-    file=DESCRIPTOR,
-    containing_type=None,
-    fields=[
-        _descriptor.FieldDescriptor(
-            name='accuracy', full_name='ArchProto.accuracy', index=0,
-            number=1, type=2, cpp_type=6, label=1,
-            has_default_value=False, default_value=float(0),
-            message_type=None, enum_type=None, containing_type=None,
-            is_extension=False, extension_scope=None,
-            serialized_options=None, file=DESCRIPTOR),
-        _descriptor.FieldDescriptor(
-            name='id', full_name='ArchProto.id', index=1,
-            number=2, type=5, cpp_type=1, label=1,
-            has_default_value=False, default_value=0,
-            message_type=None, enum_type=None, containing_type=None,
-            is_extension=False, extension_scope=None,
-            serialized_options=None, file=DESCRIPTOR),
-        _descriptor.FieldDescriptor(
-            name='cells', full_name='ArchProto.cells', index=2,
-            number=3, type=11, cpp_type=10, label=3,
-            has_default_value=False, default_value=[],
-            message_type=None, enum_type=None, containing_type=None,
-            is_extension=False, extension_scope=None,
-            serialized_options=None, file=DESCRIPTOR),
-    ],
-    extensions=[
-    ],
-    nested_types=[],
-    enum_types=[
-    ],
-    serialized_options=None,
-    is_extendable=False,
-    syntax='proto3',
-    extension_ranges=[],
-    oneofs=[
-    ],
-    serialized_start=22,
-    serialized_end=90,
+  name='ArchProto',
+  full_name='ArchProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='accuracy', full_name='ArchProto.accuracy', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='id', full_name='ArchProto.id', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='cells', full_name='ArchProto.cells', index=2,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=22,
+  serialized_end=90,
 )
+
 
 _CELLPROTO = _descriptor.Descriptor(
-    name='CellProto',
-    full_name='CellProto',
-    filename=None,
-    file=DESCRIPTOR,
-    containing_type=None,
-    fields=[
-        _descriptor.FieldDescriptor(
-            name='nodes', full_name='CellProto.nodes', index=0,
-            number=1, type=11, cpp_type=10, label=3,
-            has_default_value=False, default_value=[],
-            message_type=None, enum_type=None, containing_type=None,
-            is_extension=False, extension_scope=None,
-            serialized_options=None, file=DESCRIPTOR),
-    ],
-    extensions=[
-    ],
-    nested_types=[],
-    enum_types=[
-    ],
-    serialized_options=None,
-    is_extendable=False,
-    syntax='proto3',
-    extension_ranges=[],
-    oneofs=[
-    ],
-    serialized_start=92,
-    serialized_end=130,
+  name='CellProto',
+  full_name='CellProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='nodes', full_name='CellProto.nodes', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=92,
+  serialized_end=130,
 )
 
+
 _NODEPROTO = _descriptor.Descriptor(
-    name='NodeProto',
-    full_name='NodeProto',
-    filename=None,
-    file=DESCRIPTOR,
-    containing_type=None,
-    fields=[
-        _descriptor.FieldDescriptor(
-            name='content', full_name='NodeProto.content', index=0,
-            number=1, type=9, cpp_type=9, label=3,
-            has_default_value=False, default_value=[],
-            message_type=None, enum_type=None, containing_type=None,
-            is_extension=False, extension_scope=None,
-            serialized_options=None, file=DESCRIPTOR),
-    ],
-    extensions=[
-    ],
-    nested_types=[],
-    enum_types=[
-    ],
-    serialized_options=None,
-    is_extendable=False,
-    syntax='proto3',
-    extension_ranges=[],
-    oneofs=[
-    ],
-    serialized_start=132,
-    serialized_end=160,
+  name='NodeProto',
+  full_name='NodeProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='content', full_name='NodeProto.content', index=0,
+      number=1, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=132,
+  serialized_end=160,
 )
 
 _ARCHPROTO.fields_by_name['cells'].message_type = _CELLPROTO
@@ -134,24 +139,25 @@ DESCRIPTOR.message_types_by_name['NodeProto'] = _NODEPROTO
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 ArchProto = _reflection.GeneratedProtocolMessageType('ArchProto', (_message.Message,), dict(
-    DESCRIPTOR=_ARCHPROTO,
-    __module__='architecture_pb2'
-    # @@protoc_insertion_point(class_scope:ArchProto)
-))
+  DESCRIPTOR = _ARCHPROTO,
+  __module__ = 'architecture_pb2'
+  # @@protoc_insertion_point(class_scope:ArchProto)
+  ))
 _sym_db.RegisterMessage(ArchProto)
 
 CellProto = _reflection.GeneratedProtocolMessageType('CellProto', (_message.Message,), dict(
-    DESCRIPTOR=_CELLPROTO,
-    __module__='architecture_pb2'
-    # @@protoc_insertion_point(class_scope:CellProto)
-))
+  DESCRIPTOR = _CELLPROTO,
+  __module__ = 'architecture_pb2'
+  # @@protoc_insertion_point(class_scope:CellProto)
+  ))
 _sym_db.RegisterMessage(CellProto)
 
 NodeProto = _reflection.GeneratedProtocolMessageType('NodeProto', (_message.Message,), dict(
-    DESCRIPTOR=_NODEPROTO,
-    __module__='architecture_pb2'
-    # @@protoc_insertion_point(class_scope:NodeProto)
-))
+  DESCRIPTOR = _NODEPROTO,
+  __module__ = 'architecture_pb2'
+  # @@protoc_insertion_point(class_scope:NodeProto)
+  ))
 _sym_db.RegisterMessage(NodeProto)
+
 
 # @@protoc_insertion_point(module_scope)

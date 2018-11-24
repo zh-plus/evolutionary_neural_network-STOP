@@ -3,7 +3,7 @@ import architecture_pb2
 
 
 class Arch:
-    OPTYPE = ['identical', 'sep_3x3', 'sep_5x5', 'sep_7x7', 'avg_3x3', 'max_3x3', 'dil_3x3', 'sep_1x7_7x1']
+    OPTYPE = ['identical', 'sep_3x3', 'sep_5x5', 'sep_7x7', 'bn', 'dil_3x3', 'sep_1x7_7x1']
 
     def __init__(self, arch_proto=None):
         self.accuracy = 0
@@ -16,25 +16,21 @@ class Arch:
             self.accuracy = arch_proto.accuracy
             self.id = arch_proto.id
 
-    # convert to protocol buffer type to help store file
     def to_proto(self):
         arch_proto = architecture_pb2.ArchProto()
         arch_proto.accuracy = self.accuracy
         arch_proto.id = self.id
 
         for cell_id, cell in enumerate(self.arch):
-            ce = arch_proto.cells.add()  # type of ce is CellProto
+            ce = arch_proto.cells.add()    # type of ce is CellProto
             ce.CopyFrom(Cell.to_proto(cell))
 
         return arch_proto
 
-    @staticmethod
-    def random_arch(arch_proto=None):
-        new_arch = Arch(arch_proto)
-        for i in range(0, 2):  # five cells
-            new_arch.arch.append(Cell.random_cell())
+    def random_arch(self):
 
-        return new_arch
+        for i in range(0, 2):  # two different type cells
+            self.arch.append(Cell.random_cell())
 
 
 class Cell:
@@ -55,7 +51,7 @@ class Cell:
 
     @staticmethod
     def random_cell():
-        nodes = [[], []]
+        nodes = []
         out = [True, True]  # first two must have output
         for x in range(5):
             out.append(False)
@@ -69,7 +65,7 @@ class Cell:
         nodes.append([])  # node at seven
         for j in range(0, 7):
             if not out[j]:
-                nodes[-1].append(j)
+                nodes[-1].append(str(j))
         return nodes
 
 
@@ -93,9 +89,14 @@ class Node:
     @staticmethod
     def random_node(n):
 
-        x, y = random.sample(range(n), k=2)
+            x, y = random.sample(range(n), k=2)
 
-        left_op = random.choice(Arch.OPTYPE)
-        right_op = random.choice(Arch.OPTYPE)
+            left_op = random.choice(Arch.OPTYPE)
+            right_op = random.choice(Arch.OPTYPE)
 
-        return [left_op, right_op, x, y]
+            return [left_op, right_op, x, y]
+
+
+
+
+
