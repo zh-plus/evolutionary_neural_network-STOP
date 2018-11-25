@@ -77,7 +77,7 @@ def train_and_eval(model):
 
     kwargs = {'num_workers': 8, 'pin_memory': True} if use_cuda else {}
     train_loader = torch.utils.data.DataLoader(
-        datasets.MNIST('/MNIST-data', train=True, download=True,
+        datasets.MNIST('MNIST-data', train=True, download=True,
                        transform=transforms.Compose([
                            transforms.ToTensor(),
                            transforms.Normalize((0.1307,), (0.3081,))
@@ -85,7 +85,7 @@ def train_and_eval(model):
         batch_size=BATCH_SIZE, shuffle=True, **kwargs)
 
     test_loader = torch.utils.data.DataLoader(
-        datasets.MNIST('/MNIST-data', train=False, transform=transforms.Compose([
+        datasets.MNIST('MNIST-data', train=False, transform=transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize((0.1307,), (0.3081,))
         ])),
