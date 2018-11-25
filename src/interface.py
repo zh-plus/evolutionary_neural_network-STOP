@@ -23,6 +23,16 @@ if response == 'n' or last_path == '' or response is None:
 folder = Folder(last_path)
 p = Population(folder)
 
+# train initial individuals
+for i in range(0, p.__len__()):
+    if p.individuals[i].accuracy == 0:
+        a = p.individuals[i]
+        acc = worker.test(a)
+        p.individuals[i].accuracy = acc
+        a.accuracy = acc
+        print("train", folder.file_name(p.individuals[i]), "to", acc)
+        folder.create_file(a.to_proto())
+
 # begin evolution
 while folder.history.__len__() < C:
     print("This is", folder.history.__len__()-p.__len__()+1, " cycle:")
