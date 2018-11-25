@@ -1,5 +1,3 @@
-import copy
-import random
 from architecture import *
 
 

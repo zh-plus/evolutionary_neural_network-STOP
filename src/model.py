@@ -8,16 +8,16 @@ from architecture import Arch
 
 
 class Model(nn.Module):
-    def __init__(self, architecture, device, nor_number=1):
+    def __init__(self, architecture, normal_cell_number=1):
         """
 
-        :type architecture: List
+        :type architecture: Arch
         """
         super(Model, self).__init__()
         self.architecture = architecture
-        self.N = nor_number
+        self.cell_architectures = architecture.arch
+        self.N = normal_cell_number
         self.accuracy = 0
-        self.device = device
 
         channels = [4, 4, 8, 8, 16]
         self.increase_channel = nn.Conv2d(1, channels[0], 3, 1, 1)
@@ -25,11 +25,11 @@ class Model(nn.Module):
         self.cells = nn.ModuleList()
         for i in range(5):
             if i % 2 == 0:  # normal cells
-                self.cells.extend([CellModel(self.architecture[0], channels[i]) for _ in range(self.N)])
+                self.cells.extend([CellModel(self.cell_architectures[0], channels[i]) for _ in range(self.N)])
                 # self.add_module()
             else:  # reduction cells
                 self.cells.append(nn.Sequential(
-                    CellModel(self.architecture[1], channels[i]),
+                    CellModel(self.cell_architectures[1], channels[i]),
                     nn.Conv2d(channels[i], channels[i + 1], 3, 1, 1),
                     nn.MaxPool2d(2)
                 ))
