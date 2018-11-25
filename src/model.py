@@ -116,7 +116,7 @@ class CellModel(nn.Module):
             op0, op1 = self.ops[str((i, 0))], self.ops[str((i, 1))]
             index_x, index_y = self.inputs[i]
 
-            x, y = output[index_x], output[index_y]
+            x, y = output[int(index_x)], output[int(index_y)]
 
             # print(x.shape, y.shape)
             # print(op0, op1)

@@ -1,13 +1,7 @@
-import random
 from copy import copy
+import worker
+from mutation import Mutation
 from population import *
-
-
-def mutation(arch: Arch):
-    mutate = random.uniform(-10, 10)
-    print("mutate", folder.file_name(arch), "from", arch.accuracy, "to", arch.accuracy+mutate)
-    arch.accuracy += mutate
-    return arch
 
 
 C = 30
@@ -29,12 +23,15 @@ if response == 'n' or last_path == '' or response is None:
 folder = Folder(last_path)
 p = Population(folder)
 
+# train initial individuals
 for i in range(0, p.__len__()):
     if p.individuals[i].accuracy == 0:
-        a = random.randint(0, 20)
-        print("random", folder.file_name(p.individuals[i]), "to", a)
-        p.individuals[i].accuracy = a
+        a = p.individuals[i]
+        acc = worker.test(a)
+        p.individuals[i].accuracy = acc
+        print("train", folder.file_name(p.individuals[i]), "to", acc)
 
+# begin evolution
 while folder.history.__len__() < C:
     print("This is", folder.history.__len__()-p.__len__()+1, " cycle:")
     sample = random.sample(range(p.__len__()), k=S)
@@ -43,8 +40,12 @@ while folder.history.__len__() < C:
     for s in sample:
         if p.individuals[s].accuracy > parent.accuracy:
             parent = copy(p.individuals[s])
-    copy_parent = copy(parent)
-    child = mutation(copy_parent)
+    child = copy(parent)
+    # mutation
+    Mutation.hidenStateMutate(child)
+    acc = worker.test(child)
+    child.accuracy = acc
+    print("train child to", acc)
     p.add(child)
     p.dead()
 

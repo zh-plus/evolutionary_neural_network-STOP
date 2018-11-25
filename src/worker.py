@@ -166,6 +166,16 @@ class Worker():
         return max(history, key=lambda x: x.accuracy)
 
 
+def test(a):
+
+    use_cuda = torch.cuda.is_available()
+    device = torch.device("cuda" if use_cuda else "cpu")
+    print("training",a.id)
+    model = Model(a.arch, device, 1)
+    acc = train_and_eval(model)
+    return acc
+
+
 if __name__ == '__main__':
     a = Arch.random_arch()
 

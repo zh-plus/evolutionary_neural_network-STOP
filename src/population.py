@@ -1,4 +1,4 @@
-from architecture import Arch
+from architecture import *
 from file_system import *
 
 
@@ -20,9 +20,9 @@ class Population:
                 print("load file ", file, " ...")
 
         for i in range(0, P-self.__len__()):
-            arch = Arch()
+            arch = Arch.random_arch()
             arch.id = self.folder.max_id + 1
-            arch.random_arch()
+
             self.individuals.append(arch)
             folder.create_file(arch.to_proto())
 
