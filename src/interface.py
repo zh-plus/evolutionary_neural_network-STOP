@@ -8,19 +8,21 @@ C = 30
 S = 1
 print("Welcome to auto-ML!")
 # deal with path
-last_path = load_path()
+# last_path = load_path()
+config = load_config()
 response = None
-if last_path != '':
-    print("Notice the last visited path is: ", last_path)
+gen_num = config['gen_num']
+if config["path"] != '':
+    print("Notice the last visited path is: ", config["path"])
     while response not in ('y', 'n'):
         response = input("Do you want to use that?(y/n): ").lower()
     if response == 'y':
-        last_path = test_dir(last_path)
-if response == 'n' or last_path == '' or response is None:
+        last_path = test_dir(config["path"])
+if response == 'n' or config["path"] == '' or response is None:
     last_path = input("Please choose a new path: ")
     last_path = test_dir(last_path)
 
-folder = Folder(last_path)
+folder = Folder(config["path"])
 p = Population(folder)
 
 # train initial individuals

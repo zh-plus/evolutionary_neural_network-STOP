@@ -1,4 +1,5 @@
 from architecture import *
+from copy import copy
 
 
 class Mutation(object):
@@ -6,8 +7,9 @@ class Mutation(object):
 
     @staticmethod
     def opMutate(architecture):
+        new_archi = copy(architecture)
         choose_cell = random.randint(0, 1)
-        mutated_cell = architecture.arch[choose_cell]
+        mutated_cell = new_archi.arch[choose_cell]
         choose_node = random.randint(0, 4)
         mutated_nodes = mutated_cell[choose_node]
         op = ''
@@ -20,9 +22,12 @@ class Mutation(object):
 
         mutated_nodes[random.randint(0, 1)] = op
 
+        return new_archi
+
     @staticmethod
     def hidenStateMutate(architecture):
-        arch = architecture.arch
+        new_archi = copy(architecture)
+        arch = new_archi.arch
         choose_cell = random.randint(0, 1)
         mutated_cell = arch[choose_cell]
         choose_node = random.randint(0, 4)
@@ -44,3 +49,5 @@ class Mutation(object):
                 break
         if is_point_to_node7:
             mutated_cell[-1].append(get_orgin_num)
+
+        return new_archi

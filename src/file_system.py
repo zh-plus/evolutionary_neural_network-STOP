@@ -9,11 +9,13 @@ class Folder:
         self.history = []
         self.max_id = 0
 
+        # add dead
         dirs = os.listdir(self.dead_path())
         for file in dirs:
-            if file[0:1] == 'nn':
+            if file[0:2] == 'nn':
                 self.history.append(file)
 
+        # add alive
         dirs = os.listdir(path)
         for file in dirs:
             if file[0:2] == 'nn':
@@ -21,8 +23,32 @@ class Folder:
                 if self.file_id(file) > self.max_id:
                     self.max_id = self.file_id(file)
 
+    def update(self):
+
+        self.history = []
+        self.max_id = 0
+
+        # add dead
+        dirs = os.listdir(self.dead_path())
+        for file in dirs:
+            if file[0:2] == 'nn':
+                self.history.append(file)
+
+        # add alive
+        dirs = os.listdir(self.path)
+        for file in dirs:
+            if file[0:2] == 'nn':
+                self.history.append(file)
+                if self.file_id(file) > self.max_id:
+                    self.max_id = self.file_id(file)
+
+
+
     def dead_path(self):
         return os.path.join(self.path, 'dead')
+
+    def dead_file_path(self, file):
+        return os.path.join(self.path, 'dead', file)
 
     def file_path(self, file):
         return os.path.join(self.path, file)

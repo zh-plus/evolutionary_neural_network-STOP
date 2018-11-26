@@ -7,6 +7,8 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from torch.optim import Optimizer
 
+from model import Model
+
 
 def train(model, device, train_loader, optimizer, epoch):
     """
@@ -58,7 +60,7 @@ def validate(model, device, test_loader):
 
 
 def train_and_eval(model):
-    EPOCH = 30
+    EPOCH = 3
     BATCH_SIZE = 128
     learning_rate = 0.01002
 

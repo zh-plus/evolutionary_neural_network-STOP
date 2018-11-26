@@ -1,4 +1,5 @@
 from collections import deque
+from copy import copy
 
 from architecture import *
 from file_system import *
@@ -9,12 +10,13 @@ from model import Model
 class Population:
     """Use file system to represent population"""
 
-    def __init__(self, folder):
+    def __init__(self, folder, population_size_setpoint):
 
         # initial a List[arch] to contain all the model
-        P = 1
+        self.population_size_setpoint = population_size_setpoint
         self.folder = folder
         self.individuals = deque()
+        self.gen_num = 0
         # load file
         for file in self.folder.history:
             if folder.alive(file):
@@ -24,15 +26,42 @@ class Population:
                 # add it to population
                 self.individuals.append(arch)
                 print("load file ", file, "accuracy:", arch.accuracy, " ...")
+            else:
+                self.gen_num += 1
 
         # the number of population is not enough
-        for i in range(0, P - self.__len__()):
+        for i in range(0, population_size_setpoint - self.__len__()):
             # random architecture
             arch = Arch.random_arch()
             arch.accuracy = train_and_eval(Model(arch))
-            arch.id = self.folder.max_id + 1
             # add it to population
-            self.individuals.append(arch)
+            self.add(arch)
+
+    def get_best(self):
+        best = Arch
+        best.accuracy = 0
+        self.folder.update()
+        self.individuals = deque()
+        # load file
+        for file in self.folder.history:
+            print("update file:", file)
+            # alive file
+            if self.folder.alive(file):
+                file_path = self.folder.file_path(file)
+                arch_proto = read_file(file_path)
+                arch = Arch(arch_proto)
+                print("accuracy:",arch.accuracy)
+                if arch.accuracy > best.accuracy:
+                    best = copy(arch)
+            # dead file
+            else:
+                dead_file_path = self.folder.dead_file_path(file)
+                arch_proto = read_file(dead_file_path)
+                arch = Arch(arch_proto)
+                print("accuracy:",arch.accuracy)
+                if arch.accuracy > best.accuracy:
+                    best = copy(arch)
+        return best
 
     def __len__(self):
         return len(self.individuals)
@@ -45,24 +74,8 @@ class Population:
     def dead(self):
         # remove the oldest one
         arch = self.individuals[0]
-        self.individuals.pop(0)
+        self.individuals.popleft()
         self.folder.dead(arch)
 
-
-if __name__ == '__main__':
-    print("Welcome to auto-ML!")
-    # deal with path
-    last_path = load_path()
-    response = None
-    if last_path != '':
-        print("Notice the last visited path is: ", last_path)
-        while response not in ('y', 'n'):
-            response = input("Do you want to use that?(y/n): ").lower()
-        if response == 'y':
-            last_path = test_dir(last_path)
-    if response == 'n' or last_path == '' or response is None:
-        last_path = input("Please choose a new path: ")
-        last_path = test_dir(last_path)
-
-    folder = Folder(last_path)
-    p = Population(folder)
+    def get_history(self):
+        return self.folder.history
