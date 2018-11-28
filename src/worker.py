@@ -50,6 +50,7 @@ class Worker:
         last_path = test_dir(last_path)
         folder = Folder(last_path)
         p = Population(folder, population_size_setpoint)
+        print('population initialization succeed!\n')
 
         return p
 
@@ -59,13 +60,20 @@ class Worker:
 
         population = self.population
         history = self.history
-        print("the generation number is:", population.gen_num)
+        best = (1, 0)
+        # print("the generation number is:", population.gen_num)
         while population.gen_num < cycles:
             sample = random.sample(population.individuals, sample_size)
             parent_architecture = max(sample, key=lambda x: x.accuracy)
             child_architecture = self.mutation(parent_architecture)
-            child_model = Model(child_architecture)
-            child_model.accuracy = train_and_eval(child_model)
+            child_model = Model(child_architecture, 2)
+            print(child_model)
+            accuracy = train_and_eval(child_model)
+            child_model.accuracy = accuracy
+            child_architecture.accuracy = accuracy
+
+            if accuracy > best[0]:
+                best = (accuracy, population.gen_num + 1)
 
             population.add(child_architecture)
             history.append(child_architecture)
@@ -73,6 +81,7 @@ class Worker:
             # 轮盘
             population.dead()
             population.gen_num += 1
+            print('generation: {} \tacc: {} \tbest acc: {}'.format(population.gen_num, accuracy, str(best)))
 
 
 def test(a):

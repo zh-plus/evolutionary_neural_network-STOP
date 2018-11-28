@@ -6,6 +6,7 @@ from torch import device
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from torch.optim import Optimizer
+from time import perf_counter
 
 from model import Model
 
@@ -26,11 +27,11 @@ def train(model, device, train_loader, optimizer, epoch):
         loss = F.cross_entropy(output, target)
         loss.backward()
         optimizer.step()
-        if batch_idx % 100 == 0:
-            print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                epoch, batch_idx * len(data), len(train_loader.dataset),
-                       100. * batch_idx / len(train_loader), loss.item()), end=' === ')
-            print('with learning rate:', optimizer.param_groups[0]['lr'])
+        # if batch_idx % 100 == 0:
+        # print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+        #    epoch, batch_idx * len(data), len(train_loader.dataset),
+        #           100. * batch_idx / len(train_loader), loss.item()), end=' === ')
+        # print('with learning rate:', optimizer.param_groups[0]['lr'])
 
 
 def validate(model, device, test_loader):
@@ -53,13 +54,15 @@ def validate(model, device, test_loader):
 
     test_loss /= len(test_loader.dataset)
     acc = 100. * correct / len(test_loader.dataset)
-    print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.4f}%)\n'.format(
-        test_loss, correct, len(test_loader.dataset), acc))
+    # print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.4f}%)\n'.format(
+    #    test_loss, correct, len(test_loader.dataset), acc))
 
     return acc
 
 
 def train_and_eval(model):
+    start = perf_counter()
+
     EPOCH = 3
     BATCH_SIZE = 128
     learning_rate = 0.01002
@@ -70,7 +73,7 @@ def train_and_eval(model):
 
     optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.7)
 
-    kwargs = {'num_workers': 4, 'pin_memory': True} if use_cuda else {}
+    kwargs = {'num_workers': 8, 'pin_memory': True} if use_cuda else {}
     train_loader = torch.utils.data.DataLoader(
         datasets.MNIST('MNIST-data', train=True, download=True,
                        transform=transforms.Compose([
@@ -88,6 +91,9 @@ def train_and_eval(model):
 
     for epoch in range(1, EPOCH + 1):
         train(model, device, train_loader, optimizer, epoch)
-        acc = validate(model, device, test_loader)
+        # acc = validate(model, device, test_loader)
+
+    elapse = perf_counter() - start
+    print('elapse: {}\t'.format(elapse), end='')
 
     return validate(model, device, test_loader)

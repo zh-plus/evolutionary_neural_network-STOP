@@ -60,7 +60,7 @@ class Folder:
         write_file(arch_proto, file_path)
         if arch_proto.id > self.max_id:
             self.max_id = arch_proto.id
-        print("create file ", file_name, " ...")
+        # print("create file ", file_name, " ...")
 
     def dead(self, arch):
         # change file name -alive to -dead
@@ -70,7 +70,7 @@ class Folder:
         dst_path = os.path.join(self.dead_path(), dst)
         os.remove(src_path)
         write_file(arch.to_proto(), dst_path)
-        print(self.file_name(arch), "is dead")
+        # print(self.file_name(arch), "is dead")
 
     def add(self, arch):
         src = 'nn-' + str(arch.id) + '-alive'
@@ -79,7 +79,7 @@ class Folder:
             self.max_id = arch.id
         file_path = os.path.join(self.path, src)
         write_file(arch.to_proto(), file_path)
-        print("add", src, 'successfully')
+        # print("add", src, 'successfully')
 
     @staticmethod
     def file_name(arch):
