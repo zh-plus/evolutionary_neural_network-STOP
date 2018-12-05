@@ -128,13 +128,12 @@ def read_file(path):
 
 
 def test_dir(path):
-    while not os.path.isdir(path):
-        print("The path is unavailable!")
-        path = input("Please choose a new path: ")
-    save_path(path)
+    if not os.path.isdir(path):
+        os.mkdir(path)
+        print("make directory Store successful")
 
     dead_path = os.path.join(path, 'dead')
     if not os.path.isdir(dead_path):
         os.mkdir(dead_path)
+        print("make directory dead successful")
 
-    return path
