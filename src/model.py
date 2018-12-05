@@ -20,7 +20,7 @@ class Model(nn.Module):
         self.accuracy = 0
 
         channels = [4, 4, 8, 8, 16]
-        self.increase_channel = nn.Conv2d(1, channels[0], 3, 1, 1)
+        self.increase_input_channel = nn.Conv2d(1, channels[0], 3, 1, 1)
 
         self.cells = nn.ModuleList()
         for i in range(5):
@@ -49,7 +49,7 @@ class Model(nn.Module):
         # print(self.cells)
 
     def forward(self, input):
-        input = self.increase_channel(input)
+        input = self.increase_input_channel(input)
 
         x, y = input, input
         for i, cell in enumerate(self.cells):
@@ -133,15 +133,16 @@ class CellModel(nn.Module):
 
 if __name__ == '__main__':
     arc = Arch.random_arch()
-    # cell = CellModel(arc.arch[0], 4)
-    #
-    # data1 = torch.rand(1, 1, 28, 28)
-    # data1 = nn.Conv2d(1, 4, 1)(data1)
-    #
-    # data2 = torch.rand(1, 1, 28, 28)
-    # data2 = nn.Conv2d(1, 4, 1)(data2)
-    #
-    # result = cell((data1, data2))
+    cell = CellModel(arc.arch[0], 4)
 
-    model = Model(arc.arch, 2)
-    print(model)
+    data1 = torch.rand(1, 1, 28, 28)
+    data1 = nn.Conv2d(1, 4, 1)(data1)
+
+    data2 = torch.rand(1, 1, 28, 28)
+    data2 = nn.Conv2d(1, 4, 1)(data2)
+
+    result = cell((data1, data2))
+
+    model = Model(arc, 2)
+
+    res = model(torch.rand(1, 1, 28, 28))

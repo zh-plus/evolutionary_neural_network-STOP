@@ -35,10 +35,22 @@ class Worker:
     def initialize_population(population_size_setpoint):
         print("Welcome to auto-ML!")
         # deal with path
-        path = "Store"
-        test_dir(path)
-        folder = Folder(path)
+        last_path = load_path()
+        response = None
+        if last_path != '':
+            print("Notice the last visited path is: ", last_path)
+            while response not in ('y', 'n'):
+                response = input("Do you want to use that?(y/n): ").lower()
+            if response == 'y':
+                last_path = test_dir(last_path)
+        if response == 'n' or last_path == '' or response is None:
+            last_path = input("Please choose a new path: ")
+            last_path = test_dir(last_path)
+
+        last_path = test_dir(last_path)
+        folder = Folder(last_path)
         p = Population(folder, population_size_setpoint)
+        print('population initialization succeed!\n')
 
         return p
 
@@ -48,22 +60,20 @@ class Worker:
 
         population = self.population
         history = self.history
-        print("the generation number is:", population.gen_num)
+        best = (1, 0)
+        # print("the generation number is:", population.gen_num)
         while population.gen_num < cycles:
             sample = random.sample(population.individuals, sample_size)
             parent_architecture = max(sample, key=lambda x: x.accuracy)
-            lowest = min(population.individuals, key=lambda x: x.accuracy)
+            child_architecture = self.mutation(parent_architecture)
+            child_model = Model(child_architecture, 2)
+            print(child_model)
+            accuracy = train_and_eval(child_model)
+            child_model.accuracy = accuracy
+            child_architecture.accuracy = accuracy
 
-            # mutation
-
-            while True:
-                child_architecture = self.mutation(parent_architecture)
-                child_model = Model(child_architecture)
-                child_model.accuracy = train_and_eval(child_model)
-                child_architecture.accuracy = child_model.accuracy
-                # check whether it is acceptable
-                if child_model.accuracy >= lowest.accurancy:
-                    break
+            if accuracy > best[0]:
+                best = (accuracy, population.gen_num + 1)
 
             population.add(child_architecture)
             history.append(child_architecture)
@@ -71,6 +81,14 @@ class Worker:
             # 轮盘
             population.dead()
             population.gen_num += 1
+            print('generation: {} \tacc: {} \tbest acc: {}'.format(population.gen_num, accuracy, str(best)))
+
+
+def test(a):
+    print("training", a.id)
+    model = Model(a.arch, 1)
+    acc = train_and_eval(model)
+    return acc
 
 
 if __name__ == '__main__':

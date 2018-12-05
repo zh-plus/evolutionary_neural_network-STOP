@@ -34,6 +34,7 @@ class Population:
             # random architecture
             arch = Arch.random_arch()
             arch.accuracy = train_and_eval(Model(arch))
+            print('')
             # add it to population
             self.add(arch)
 
@@ -44,13 +45,11 @@ class Population:
         self.individuals = deque()
         # load file
         for file in self.folder.history:
-            print("update file:", file)
             # alive file
             if self.folder.alive(file):
                 file_path = self.folder.file_path(file)
                 arch_proto = read_file(file_path)
                 arch = Arch(arch_proto)
-                print("accuracy:",arch.accuracy)
                 if arch.accuracy > best.accuracy:
                     best = copy(arch)
             # dead file
@@ -58,7 +57,6 @@ class Population:
                 dead_file_path = self.folder.dead_file_path(file)
                 arch_proto = read_file(dead_file_path)
                 arch = Arch(arch_proto)
-                print("accuracy:",arch.accuracy)
                 if arch.accuracy > best.accuracy:
                     best = copy(arch)
         return best
