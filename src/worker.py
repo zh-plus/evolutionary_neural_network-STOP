@@ -1,7 +1,5 @@
 import torch
-
 import random
-from collections import deque
 
 from architecture import Arch
 from population import Population
@@ -45,8 +43,8 @@ class Worker:
         return p
 
     def evolve(self):
-        cycles = 7
-        sample_size = 2
+        cycles = 300
+        sample_size = 4
 
         population = self.population
         history = self.history
@@ -55,9 +53,9 @@ class Worker:
         while population.gen_num < cycles:
             sample = random.sample(population.individuals, sample_size)
             parent_architecture = max(sample, key=lambda x: x.accuracy)
-            loser = max(population.individuals, key=lambda x: x.accuracy)
+            loser = min(population.individuals, key=lambda x: x.accuracy)
 
-            while True:
+            while 1:
                 child_architecture = self.mutation(parent_architecture)
                 child_model = Model(child_architecture, 2)
                 print(child_model)
@@ -81,7 +79,7 @@ class Worker:
 
 
 if __name__ == '__main__':
-    worker = Worker(4)
+    worker = Worker(30)
     worker.evolve()
     best = worker.population.get_best()
     print(best.arch)

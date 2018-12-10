@@ -6,9 +6,12 @@ from torch import device
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from torch.optim import Optimizer
+from tensorboardX import SummaryWriter
+
 from time import perf_counter
 
 from model import Model
+from architecture import Arch
 
 
 def train(model, device, train_loader, optimizer, epoch):
@@ -97,3 +100,24 @@ def train_and_eval(model):
     print('elapse: {}\t'.format(elapse), end='')
 
     return validate(model, device, test_loader)
+
+def visualize(model):
+    dummy_data = torch.rand(1, 2, 28, 28)
+
+    with SummaryWriter(comment='chosen model') as writer:
+        writer.add_graph(model, ((dummy_data, dummy_data), ))
+
+
+if __name__ == "__main__":
+    from architecture import Arch
+    from model import CellModel
+    import sys
+    import platform
+
+
+    print(sys.version_info)
+
+    a = Arch.random_arch().arch
+    cell = CellModel(a[0], 2)
+    
+    visualize(cell)
